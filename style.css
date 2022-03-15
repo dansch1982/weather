@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+body {
+  margin: auto;
+  width: 90vw;
+  height: 70vh;
+}
+
 .create {
   background-color: aliceblue;
   display: flex;
@@ -36,11 +42,11 @@
 }
 
 .weatherContainer {
-  display: flex;
+  display: grid;
   width: 100%;
-  height: 200px;
+  height: 100%;
+  overflow: hidden;
 }
-
 .weather {
   background-color: whitesmoke;
   box-sizing: border-box;
