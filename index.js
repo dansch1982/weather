@@ -15,17 +15,16 @@ class Weather {
         const data = this.data.properties.timeseries[0].data;
         const meta = this.data.properties.meta;
 
-        /* const API_KEY = 'fd3ccc871f6c471a91d78a0f64734999'
+        const API_KEY = 'fd3ccc871f6c471a91d78a0f64734999'
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${this.location.lat}+${this.location.lon}&key=${API_KEY}`)
 
         const cityData = await fetch(url)
         const city = await cityData.json();
-        console.log(city) */
 
         for (const prop in data) {
             if (prop === "instant") {
-                this.element.childNodes[0].textContent = `${data[prop].details.air_temperature} ${meta.units.air_temperature} ${new Date().toLocaleTimeString('sv-SE')}`
-                //this.element.childNodes[0].textContent = `${city.results[0].components.municipality}: ${data[prop].details.air_temperature} ${meta.units.air_temperature} ${new Date().toLocaleTimeString('sv-SE')}`
+                //this.element.childNodes[0].textContent = `${data[prop].details.air_temperature} ${meta.units.air_temperature} ${new Date().toLocaleTimeString('sv-SE')}`
+                this.element.childNodes[0].textContent = `${city.results[0].components.city ? city.results[0].components.city : city.results[0].components.municipality}: ${data[prop].details.air_temperature} ${meta.units.air_temperature} ${new Date().toLocaleTimeString('sv-SE')}`
             } else if (prop === "next_1_hours") {
                 //console.log(data[prop].summary.symbol_code)
                 this.element.childNodes[1].innerHTML = `<img src="https://api.met.no/images/weathericons/svg/${data[prop].summary.symbol_code}.svg" alt="${data[prop].summary.symbol_code}">`
