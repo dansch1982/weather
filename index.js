@@ -17,7 +17,7 @@ class Weather {
 
         for (const prop in data) {
             if (prop === "instant") {
-                this.element.childNodes[0].textContent = `${this.name ? "Temperaturen i " + this.name + " är just nu": ""}\n${data[prop].details.air_temperature} ${meta.units.air_temperature}\nSenast uppdaterad ${new Date().toLocaleTimeString('sv-SE', { hour:"2-digit", minute:"2-digit" })}`
+                this.element.childNodes[0].textContent = `${this.name ? this.name + "\n": ""}${data[prop].details.air_temperature} ${meta.units.air_temperature}\nSenast uppdaterad ${new Date().toLocaleTimeString('sv-SE', { hour:"2-digit", minute:"2-digit" })}`
             } else if (prop === "next_1_hours") {
                 this.element.childNodes[1].innerHTML = `<img src="https://api.met.no/images/weathericons/svg/${data[prop].summary.symbol_code}.svg" alt="${data[prop].summary.symbol_code}">`
             } else {
@@ -38,7 +38,8 @@ class Weather {
         const API_KEY = 'fd3ccc871f6c471a91d78a0f64734999'
         const url = new URL(`https://api.opencagedata.com/geocode/v1/json?q=${this.location.lat}+${this.location.lon}&key=${API_KEY}`)
         const data = await (await fetch(url)).json();
-        return data.results[0].components.city || data.results[0].components.municipality
+        console.log(data)
+        return data.results[0].formatted
     }
     createElement(parent) {
         const section = document.createElement('section')
