@@ -6,32 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Weather</title>
-    <style>
-        .lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 200px;
-  height: 200px;
-}
-.lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 20px solid;
-  border-radius: 50%;
-  border-color: black black transparent black;
-}
-
-    </style>
 </head>
 <body>
     <section class="create">
         <label><input type="number" id="latitude" value="60.6749">Latitude</label>
         <label><input type="number" id="longitude" value="17.1413">Longitude</label>
         <button id="create">Create</button>
-        <div class="lds-ring"><div></div></div>
     </section>
     <section class="weatherContainer"></section>
     <script src="index.js"></script>
