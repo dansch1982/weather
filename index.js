@@ -1,5 +1,3 @@
-//import fetch from 'node-fetch';
-
 class Weather {
     constructor(lat, lon, altitude, parent) {
         this.location = {
@@ -65,7 +63,8 @@ class Weather {
 
         return section;
     }
-    async start() {        this.name = await this.getLocationName()
+    async start() {
+        this.name = await this.getLocationName()
         this.update();
         this.interval = setInterval(() => {
             this.update();
@@ -96,6 +95,7 @@ create.addEventListener('click', () => {
     weather.start();
 })
 
+const weatherContainer = document.querySelector('.weatherContainer')
 const observer = new MutationObserver((mutationsList, observer) => {
     for (let mutation of mutationsList) {
         if (mutation.type === 'childList') {
@@ -103,5 +103,4 @@ const observer = new MutationObserver((mutationsList, observer) => {
         }
     }
 });
-const weatherContainer = document.querySelector('.weatherContainer')
 observer.observe(weatherContainer, { childList: true, subtree: false });
