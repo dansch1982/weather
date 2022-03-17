@@ -7,6 +7,8 @@ class Weather {
             lon: lon,
             altitude: altitude,
         }
+        this.element = this.createElement(parent);
+        this.updateFrequency = 5*60*1000
     }
     async update() {
         
@@ -17,9 +19,9 @@ class Weather {
 
         for (const prop in data) {
             if (prop === "instant") {
-                this.element.childNodes[0].textContent = `${this.name ? this.name + "\n": ""}${data[prop].details.air_temperature} ${meta.units.air_temperature}\nSenast uppdaterad ${new Date().toLocaleTimeString('sv-SE', { hour:"2-digit", minute:"2-digit" })}`
+                this.element.querySelector("[id*='_temp']").textContent = `${this.name ? this.name + "\n": ""}${data[prop].details.air_temperature} ${meta.units.air_temperature}\nSenast uppdaterad ${new Date().toLocaleTimeString('sv-SE', { hour:"2-digit", minute:"2-digit" })}`
             } else if (prop === "next_1_hours") {
-                this.element.childNodes[1].innerHTML = `<img src="https://api.met.no/images/weathericons/svg/${data[prop].summary.symbol_code}.svg" alt="${data[prop].summary.symbol_code}">`
+                this.element.querySelector("[id*='_symbol']").innerHTML = `<img src="https://api.met.no/images/weathericons/svg/${data[prop].summary.symbol_code}.svg" alt="${data[prop].summary.symbol_code}">`
             } else {
                 continue;
             }
@@ -43,8 +45,7 @@ class Weather {
     }
     createElement(parent) {
         const section = document.createElement('section')
-        section.id = "weather" + new Date().getTime();
-        section.classList.add("weather")
+        section.id = `weather_${new Date().getTime()}`;
         
         const temp = document.createElement('article')
 
@@ -53,22 +54,20 @@ class Weather {
         })
 
         temp.id = `${section.id}_temp`
-        temp.classList.add("temp")
         section.appendChild(temp)
         
         const symbol = document.createElement('article')
         symbol.id = `${section.id}_symbol`
-        symbol.classList.add("symbol")
         section.appendChild(symbol)
 
         parent.appendChild(section)
+
+        this.createCSS();
 
         return section;
     }
     async start() {
         this.name = await this.getLocationName()
-        this.element = this.createElement(parent);
-        this.updateFrequency = 5*60*1000
         this.update();
         this.interval = setInterval(() => {
             this.update();
@@ -78,6 +77,14 @@ class Weather {
         clearInterval(this.interval);
         this.element.parentElement.removeChild(this.element);
     };
+    createCSS() {
+        if (!document.getElementById('weatherAppCSS')) {
+            const style = document.createElement('style')
+            style.id = "weatherAppCSS"
+            style.innerHTML = '*{padding:0;margin:0;box-sizing:border-box}body{margin:auto;width:90vw;height:70vh}.create{background-color:#f0f8ff;display:flex;flex-direction:column;gap:.5em;padding:.5rem;font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif}.create label{display:flex;align-items:center;font-size:1.5rem}.create input{padding:.5rem;border:2px solid #000;margin-right:.5rem;border-radius:5px}.create button{width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;min-width:4rem;padding:.5rem;border-radius:0;border:2px solid #000;background-color:unset;border-radius:5px}.weatherContainer{display:grid;width:100%;height:100%;overflow:hidden}[id^=weather_]{background-color:#f5f5f5;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;height:100%;padding:.5em;gap:.5em}[id^=weather_] *{padding:0;margin:0;box-sizing:border-box}[id^=weather_] [id^=weather_][id$=_temp]{display:flex;justify-content:center;align-items:center;text-align:center;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;white-space:pre}[id^=weather_] [id^=weather_][id$=_symbol]{position:relative;justify-content:center;align-items:center;width:100%;height:100%}[id^=weather_] [id^=weather_][id$=_symbol] svg,[id^=weather_] [id^=weather_][id$=_symbol] img{position:absolute;top:5%;left:5%;width:90%;height:90%}/*# sourceMappingURL=style.css.map */'
+            document.head.appendChild(style)
+        }
+    }
 }
 const parent = document.querySelector(".weatherContainer")
 

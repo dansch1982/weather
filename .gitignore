@@ -1,3 +1,4 @@
 **/node_modules/
-style.css.map
-style.scss
+*.map
+*.scss
+**/.vscode/
