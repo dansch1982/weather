@@ -99,7 +99,7 @@ const weatherContainer = document.querySelector('.weatherContainer')
 const observer = new MutationObserver((mutationsList, observer) => {
     for (let mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            weatherContainer.style.gridTemplateColumns = `repeat(${weatherContainer.children.length < 4 ? weatherContainer.children.length : 4}, 1fr)`
+            weatherContainer.style.gridTemplateColumns = `repeat(${weatherContainer.children.length < 3 ? weatherContainer.children.length : 3}, 1fr)`
         }
     }
 });
